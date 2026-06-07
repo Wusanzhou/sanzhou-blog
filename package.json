@@ -1,0 +1,17 @@
+{
+  "name": "sanzhou-blog",
+  "version": "1.0.0",
+  "description": "三舟的 AI 编程学习记录",
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs"
+  },
+  "keywords": ["blog", "ai", "programming"],
+  "author": "三舟",
+  "license": "MIT",
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  }
+}
