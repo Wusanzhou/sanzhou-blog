@@ -80,6 +80,7 @@ export default defineConfig({
   title: '三舟的编程笔记',
   description: 'AI 编程学习记录与思考',
   lang: 'zh-CN',
+  base: '/sanzhou-blog/',
 
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
