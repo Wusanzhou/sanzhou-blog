@@ -4,6 +4,7 @@
 
 ## 笔记列表
 
+- [博客搭建全记录](/notes/building-sanzhou-blog) — 用 AI 花一个晚上从零到上线
 - [AI 编程周记](/notes/weekly) — 每周的记录和思考
 
 ## 记什么

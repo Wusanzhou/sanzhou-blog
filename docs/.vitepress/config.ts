@@ -70,6 +70,7 @@ const sidebar = {
       text: '📝 踩坑笔记',
       items: [
         { text: '全部笔记', link: '/notes/' },
+        { text: '博客搭建全记录', link: '/notes/building-sanzhou-blog' },
         { text: 'AI 编程周记', link: '/notes/weekly' },
       ],
     },
