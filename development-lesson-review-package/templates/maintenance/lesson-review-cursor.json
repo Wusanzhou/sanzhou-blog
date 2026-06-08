@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "initialized_at": "{{NOW}}",
+  "last_review_at": "{{NOW}}",
+  "policy": {
+    "main_memory": "{{CODEX_HOME}}/automations/development-lesson-review/memory.md",
+    "canonical_cursor": "{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-cursor.json",
+    "maintenance_dir": "{{CODEX_HOME}}/automations/development-lesson-review/maintenance",
+    "notes": "memory.md 是主连续记忆和人工可读摘要；本文件是机器可读 canonical cursor。"
+  },
+  "files": {},
+  "repos": {}
+}
