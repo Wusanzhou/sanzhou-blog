@@ -12,7 +12,7 @@ usage() {
 
 参数：
   --codex-home P   Codex 配置目录，默认 $CODEX_HOME 或 ~/.codex。
-  --remove-vault   同时删除本功能的维护目录。默认保留日志、主 memory 游标、cursor、候选和待确认变更。
+  --remove-vault   同时删除本功能的维护目录。默认保留日志、稳定 cursor、运行记忆、候选和待确认变更。
   --dry-run        只预览将删除的文件，不实际删除。
 
 默认行为只删除自动化目录：

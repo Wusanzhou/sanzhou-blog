@@ -97,7 +97,7 @@
 - 提出删除、降级或迁移建议时，必须写入 `{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-pending-changes.md`，使用待确认变更模板，等待人工确认。
 - 月度整理时必须检查规则冲突：全局 `AGENTS.md` 与项目 `AGENTS.md` 是否矛盾，`skills/` 与 `hooks/` 是否重复或冲突，项目规则是否应覆盖全局规则，旧规则是否已过期。
 
-复盘前先读取 `{{CODEX_HOME}}/automations/development-lesson-review/memory.md` 中最新主游标。维护面板读取 `memory.md`，并展示 `{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-cursor.json` 作为机器可读副本。只处理游标之后的新输入：
+复盘前先读取 `{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-cursor.json` 中最新主游标。维护面板同时展示 cursor 和 `memory.md`，cursor 用于机器增量判断，memory 用于人工审查最近结论。只处理游标之后的新输入：
 
 - 跟踪文件元数据已变化的 Codex 对话/会话记录。
 - `last_seen_head` 之后的仓库提交。
@@ -107,7 +107,7 @@
 
 后台复盘只要修改了任何持久指导文件，就向 `{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-log.md` 追加一条简洁中文记录，包含来源、变更文件、经验、分层决定和校验。如果没有持久文件变更，不追加日志条目。
 
-每次复盘结束后，把新的主游标写入 `{{CODEX_HOME}}/automations/development-lesson-review/memory.md`，包含本轮已复核到的时间、文件元数据摘要、仓库 head/status、是否发现新长期经验。只要 memory 主游标写入成功，就视为自动化游标已推进，避免旧输入被反复扫描。同步 canonical cursor `{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-cursor.json`，并报告 canonical cursor 写入结果。只有 memory 主游标写入失败时，才报告自动化 cursor 无法推进；此时不要写入新的长期经验，避免重复沉淀。
+每次复盘结束后，把新的主游标写入 `{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-cursor.json`，包含本轮已复核到的时间、文件元数据摘要、仓库 head/status、是否发现新长期经验。写 cursor 时先写临时 JSON 文件，校验能被解析后再替换目标文件，避免半写入导致游标损坏。cursor 写入成功后，再更新 `{{CODEX_HOME}}/automations/development-lesson-review/memory.md` 作为中文运行摘要。只有 cursor 写入失败时，才报告自动化游标无法推进；此时不要写入新的长期经验，避免重复沉淀。
 
 ## Pending Change Template
 

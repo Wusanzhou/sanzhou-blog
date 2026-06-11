@@ -1,17 +1,15 @@
-# 🚀 入门指南
+# 学习路线
 
-本系列面向刚接触 AI 编程的开发者，从工具选择到上手实战，一步步带你入门。
+这里放我学习 AI 编程时整理的基础概念和路线。它不是系统教程，只是我目前觉得需要先弄清楚的东西。
 
-## 文章列表
+## 记录列表
 
 - [AI 编程工具概览](/guide/tools-overview) — Claude Code / Cursor / Copilot / Windsurf 横评对比
-- [Prompt Engineering 入门](/guide/prompt-engineering) — 怎么写好提示词，让 AI 写出你想要的代码
-- [从零搭建第一个 AI 辅助项目](/guide/first-project) — 完整 walkthrough
-- [Context 管理技巧](/guide/context-management) — CLAUDE.md / memory / 项目规则怎么用
-- [Git 与 AI 协作工作流](/guide/git-ai-workflow) — AI 写 commit message、code review
+- [Prompt Engineering 记录](/guide/prompt-engineering) — 我对提示词写法的阶段性理解
+- [第一个 AI 辅助项目](/guide/first-project) — 从零做项目时的记录
+- [Context 管理记录](/guide/context-management) — CLAUDE.md / memory / 项目规则怎么用
+- [Git 与 AI 协作记录](/guide/git-ai-workflow) — commit、review 和改代码时的配合方式
 
-## 推荐阅读顺序
+## 当前想法
 
-如果你是第一次接触 AI 编程，建议按上面的顺序依次阅读。每篇文章都建立在上一篇的基础上。
-
-如果已有一定经验，可以按需跳读。
+我会先从工具、Prompt、Context 和 Git 协作这些最常用的地方开始补记录。后面如果理解变了，这里的顺序也会调整。

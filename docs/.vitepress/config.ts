@@ -3,11 +3,11 @@ import { defineConfig } from 'vitepress'
 // 导航栏
 const nav = [
   { text: '首页', link: '/' },
-  { text: '入门指南', link: '/guide/' },
-  { text: '实战项目', link: '/practice/' },
-  { text: '工具效率', link: '/tools/' },
-  { text: '深入理解', link: '/deep-dive/' },
-  { text: '踩坑笔记', link: '/notes/' },
+  { text: '学习路线', link: '/guide/' },
+  { text: '练习项目', link: '/practice/' },
+  { text: '工具笔记', link: '/tools/' },
+  { text: '理解笔记', link: '/deep-dive/' },
+  { text: '问题记录', link: '/notes/' },
   { text: '关于', link: '/about' },
 ]
 
@@ -15,20 +15,20 @@ const nav = [
 const sidebar = {
   '/guide/': [
     {
-      text: '🚀 入门指南',
+      text: '学习路线',
       items: [
         { text: '概述', link: '/guide/' },
         { text: 'AI 编程工具概览', link: '/guide/tools-overview' },
-        { text: 'Prompt Engineering 入门', link: '/guide/prompt-engineering' },
-        { text: '从零搭建第一个 AI 辅助项目', link: '/guide/first-project' },
-        { text: 'Context 管理技巧', link: '/guide/context-management' },
-        { text: 'Git 与 AI 协作工作流', link: '/guide/git-ai-workflow' },
+        { text: 'Prompt 记录', link: '/guide/prompt-engineering' },
+        { text: '第一个 AI 辅助项目', link: '/guide/first-project' },
+        { text: 'Context 管理记录', link: '/guide/context-management' },
+        { text: 'Git 与 AI 协作记录', link: '/guide/git-ai-workflow' },
       ],
     },
   ],
   '/practice/': [
     {
-      text: '🔨 实战项目',
+      text: '练习项目',
       items: [
         { text: '概述', link: '/practice/' },
         { text: '用 AI 搭建个人博客', link: '/practice/build-blog-with-ai' },
@@ -41,33 +41,33 @@ const sidebar = {
   ],
   '/tools/': [
     {
-      text: '🛠️ 工具与效率',
+      text: '工具笔记',
       items: [
         { text: '概述', link: '/tools/' },
         { text: 'Claude Code 深度使用技巧', link: '/tools/claude-code-tips' },
-        { text: 'Cursor Rules 系统详解', link: '/tools/cursor-rules' },
+        { text: 'Cursor Rules 使用记录', link: '/tools/cursor-rules' },
         { text: 'VSCode + AI 插件组合', link: '/tools/vscode-ai-plugins' },
         { text: 'Shell 别名与 AI 辅助', link: '/tools/shell-ai' },
-        { text: '多模型协作策略', link: '/tools/multi-model' },
+        { text: '多模型协作记录', link: '/tools/multi-model' },
       ],
     },
   ],
   '/deep-dive/': [
     {
-      text: '🧠 深入理解',
+      text: '理解笔记',
       items: [
         { text: '概述', link: '/deep-dive/' },
-        { text: 'Tool Use 机制解析', link: '/deep-dive/tool-use' },
-        { text: 'Agent 架构设计', link: '/deep-dive/agent-architecture' },
-        { text: 'Context Window 与 Token 经济', link: '/deep-dive/token-economics' },
-        { text: 'MCP 协议入门', link: '/deep-dive/mcp-protocol' },
-        { text: 'Prompt Cache 原理与实战', link: '/deep-dive/prompt-cache' },
+        { text: 'Tool Use 理解记录', link: '/deep-dive/tool-use' },
+        { text: 'Agent 架构理解', link: '/deep-dive/agent-architecture' },
+        { text: 'Context Window 与 Token', link: '/deep-dive/token-economics' },
+        { text: 'MCP 协议学习记录', link: '/deep-dive/mcp-protocol' },
+        { text: 'Prompt Cache 学习记录', link: '/deep-dive/prompt-cache' },
       ],
     },
   ],
   '/notes/': [
     {
-      text: '📝 踩坑笔记',
+      text: '问题记录',
       items: [
         { text: '全部笔记', link: '/notes/' },
         { text: '博客搭建全记录', link: '/notes/building-sanzhou-blog' },
@@ -79,7 +79,7 @@ const sidebar = {
 
 export default defineConfig({
   title: '三舟的编程笔记',
-  description: 'AI 编程学习记录与思考',
+  description: 'AI 编程学习记录',
   lang: 'zh-CN',
   base: '/sanzhou-blog/',
 
@@ -99,7 +99,7 @@ export default defineConfig({
 
     // 页脚
     footer: {
-      message: '用 AI 辅助编写 · 持续学习记录',
+      message: '边学边写，慢慢修正',
       copyright: '© 2026 三舟',
     },
 

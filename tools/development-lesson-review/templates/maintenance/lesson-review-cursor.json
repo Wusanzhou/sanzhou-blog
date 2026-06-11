@@ -6,7 +6,7 @@
     "main_memory": "{{CODEX_HOME}}/automations/development-lesson-review/memory.md",
     "canonical_cursor": "{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-cursor.json",
     "maintenance_dir": "{{CODEX_HOME}}/automations/development-lesson-review/maintenance",
-    "notes": "memory.md 是主连续记忆和人工可读摘要；本文件是机器可读 canonical cursor。"
+    "notes": "本文件是主增量游标；memory.md 是人工可读运行记忆和最近结论。"
   },
   "files": {},
   "repos": {}

@@ -1,6 +1,6 @@
 # 用 AI 搭建个人博客
 
-> 本文记录了使用 Claude Code + VitePress 搭建本博客的全过程，是「实战项目」系列的第一篇。
+> 这篇记录我第一次用 Claude Code 和 VitePress 搭建这个博客的过程。
 
 ## 项目背景
 
@@ -30,11 +30,11 @@ sanzhou-blog/
 ├── .github/workflows/    # 自动部署配置
 ├── docs/                 # 所有内容都在这里
 │   ├── .vitepress/       # VitePress 配置
-│   ├── guide/            # 入门指南
-│   ├── practice/         # 实战项目
-│   ├── tools/            # 工具效率
-│   ├── deep-dive/        # 深入理解
-│   └── notes/            # 踩坑笔记
+│   ├── guide/            # 学习路线
+│   ├── practice/         # 练习项目
+│   ├── tools/            # 工具笔记
+│   ├── deep-dive/        # 理解笔记
+│   └── notes/            # 问题记录
 └── package.json
 ```
 
@@ -121,7 +121,7 @@ GitHub Actions 中的 Node 版本要和本地一致，否则可能构建失败�
 
 ---
 
-> 下一篇预告：[AI 生成单元测试](/practice/ai-unit-tests) — 如何让 AI 写出高覆盖率的测试代码
+> 后面准备记录：[AI 生成单元测试](/practice/ai-unit-tests) — 我尝试让 AI 补测试的过程
 
 ---
 

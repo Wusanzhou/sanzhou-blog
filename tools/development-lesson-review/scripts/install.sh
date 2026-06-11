@@ -198,9 +198,9 @@ PY
 CWDS_JSON="$(json_array "$CODEX_HOME_DIR" "${REPOS[@]}")"
 
 PROMPT="$(cat <<EOF
-复盘近期 Codex 协作工作，包括 \`$CODEX_HOME_DIR\` 下可用的近期对话/会话记录，以及相关工作区变化。每次运行都应视为无聊天历史状态：不要依赖上一轮 chat 或上一轮自动化线程延续记忆。主游标和可靠连续记忆层是 \`$CODEX_HOME_DIR/automations/development-lesson-review/memory.md\`；维护面板会直接读取该文件。维护目录保存 \`$MAINTENANCE_DIR/lesson-review-log.md\`、\`$MAINTENANCE_DIR/lesson-review-candidates.md\`、\`$MAINTENANCE_DIR/lesson-review-pending-changes.md\`、\`$MAINTENANCE_DIR/lesson-review-cursor.json\` 和归档内容。
+复盘近期 Codex 协作工作，包括 \`$CODEX_HOME_DIR\` 下可用的近期对话/会话记录，以及相关工作区变化。每次运行都应视为无聊天历史状态：不要依赖上一轮 chat 或上一轮自动化线程延续记忆。主游标是 \`$MAINTENANCE_DIR/lesson-review-cursor.json\`；\`$CODEX_HOME_DIR/automations/development-lesson-review/memory.md\` 只作为人工可读运行记忆和最近结论。维护目录保存 \`$MAINTENANCE_DIR/lesson-review-log.md\`、\`$MAINTENANCE_DIR/lesson-review-candidates.md\`、\`$MAINTENANCE_DIR/lesson-review-pending-changes.md\`、\`$MAINTENANCE_DIR/lesson-review-cursor.json\` 和归档内容。
 
-开始时先读取 \`$CODEX_HOME_DIR/automations/development-lesson-review/memory.md\` 中最新主游标，并读取 \`$MAINTENANCE_DIR/lesson-review-cursor.json\` 作为机器可读副本参考。每次运行开始时还必须主动检查本线程收到的运行环境权限说明，记录 \`sandbox_mode\`、\`permission_profile\`、\`writable_roots\` 或 \`danger-full-access\` 状态；如当前线程无法直接看到结构化字段，则说明“本线程上下文未暴露结构化 writable_roots”，并从本轮实际写入结果判断。每次运行结束时必须明确报告 \`memory.md\` 主游标写入是否成功，以及 canonical cursor \`$MAINTENANCE_DIR/lesson-review-cursor.json\` 是否写入成功。只处理游标之后的新输入：跟踪文件元数据已变化的 Codex 对话/会话记录、\`last_seen_head\` 之后的仓库提交，以及状态哈希不同于 \`last_seen_status_hash\` 的工作区状态变化。\`development-lesson-review\` 自身产生的常规会话按维护噪声处理，除非其中包含超出游标/日志维护的新持久指导决策。
+开始时先读取 \`$MAINTENANCE_DIR/lesson-review-cursor.json\` 中最新主游标，并读取 \`$CODEX_HOME_DIR/automations/development-lesson-review/memory.md\` 作为人工可读运行记忆参考。每次运行开始时还必须主动检查本线程收到的运行环境权限说明，记录 \`sandbox_mode\`、\`permission_profile\`、\`writable_roots\` 或 \`danger-full-access\` 状态；如当前线程无法直接看到结构化字段，则说明“本线程上下文未暴露结构化 writable_roots”，并从本轮实际写入结果判断。每次运行结束时必须明确报告主游标 \`$MAINTENANCE_DIR/lesson-review-cursor.json\` 是否写入成功，以及 \`memory.md\` 运行记忆是否写入成功。只处理游标之后的新输入：跟踪文件元数据已变化的 Codex 对话/会话记录、\`last_seen_head\` 之后的仓库提交，以及状态哈希不同于 \`last_seen_status_hash\` 的工作区状态变化。\`development-lesson-review\` 自身产生的常规会话按维护噪声处理，除非其中包含超出游标/日志维护的新持久指导决策。
 
 复盘重点是用户和 Codex 如何协作：重复出现的用户偏好、重复工作流、遗漏的假设、可避免的澄清循环、验证缺口、权限边界和失败模式。默认策略是宁可漏掉弱经验，也不要把噪声写进长期记忆。只提取广泛有用且达到写入门槛的开发经验，并写入正确的持久层。
 
@@ -214,17 +214,19 @@ PROMPT="$(cat <<EOF
 
 写入中置信度候选时，必须包含：来源、候选经验、暂不直接写入原因、建议层级、状态、作用范围、复查时间或过期条件、需要人工确认的问题。状态使用“待审查 / 已采纳 / 已拒绝 / 已过期”；作用范围使用“全局 / 当前仓库 / 当前模块 / 当前任务”。当前任务范围默认不写入长期层。候选超过 60 天仍未采纳时，建议标记为已过期；如果后续出现新证据，可以重新创建候选。
 
+如果新会话中出现与现有长期指导、skill、rules、hooks、vault 状态或历史经验相悖的工作逻辑，不要直接覆盖旧内容，也不要静默忽略。先判断冲突类型：如果它像可能的新经验、例外边界或适用范围调整，写入 \`$MAINTENANCE_DIR/lesson-review-candidates.md\`，状态为“待审查”；如果它意味着需要删除、降级、迁移或修改已有长期内容，写入 \`$MAINTENANCE_DIR/lesson-review-pending-changes.md\`，确认状态为“待确认”。冲突条目必须说明冲突对象、相悖点、新证据、暂不直接执行原因、建议处理方式和需要人工确认的问题。
+
 写入任何会被日常任务默认读取的文件前，必须评估上下文成本。高频上下文文件包括 \`AGENTS.md\`、触发到的 \`skills/*/SKILL.md\`、当前仓库项目指导文件和自动化 prompt。\`AGENTS.md\` 只写短小、稳定、可复用、能改变未来行为的规则；不要写历史、案例、长解释、审计记录或候选内容。全局 \`AGENTS.md\` 建议控制在 1500-2500 字以内，项目 \`AGENTS.md\` 建议控制在 1000-2000 字以内；如果新增内容会让文件明显增长，优先合并或压缩已有规则，而不是追加新段落。写入 \`skills/\` 前必须先查找已有相关 skill；能迭代已有 skill 时优先更新已有 skill，不要因为同类经验创建重复 skill。只有没有合适承载点，或新流程的触发条件、步骤和校验都明显独立时，才创建新 skill。长流程不要全部塞进 \`SKILL.md\`；\`SKILL.md\` 只写核心流程和何时读取参考，详细内容放入 \`references/\`。历史、案例、解释、审计记录、候选内容和长期状态放入 \`vault/\`、\`evals/\`、\`hooks/\` 或 skill references，按需读取，不进入默认上下文。
 
 跨项目通用经验才写入 \`$CODEX_HOME_DIR\` 下的全局文件：重复偏好写入 \`AGENTS.md\`，重复工作流写入 \`skills/\`，持久状态和决策写入 \`vault/\`，可复现失败案例写入 \`evals/\`，权限期望写入 \`rules/\`，确定性检查写入 \`hooks/\`。仓库专属经验优先写入该仓库本地持久层：项目指导写入 \`AGENTS.md\`，重复工作流写入 \`skills/\`，稳定项目状态和决策写入 \`vault/\`，回归案例写入 \`evals/\`，权限/访问边界写入 \`rules/\`，确定性校验写入 \`hooks/\`。
 
 写入任何经验前，先检查目标持久文件和 \`$MAINTENANCE_DIR/lesson-review-log.md\`；如果相同或实质等价的经验已经存在，不要重复写入。自动总结和持久指导更新中，正文内容（规则、边界、经验说明、分层理由、校验说明等）使用中文书写，方便后续审查。必要的文件名、标识符、技术术语、章节标题或简短简介可以继续使用英文。
 
-判断游标是否可写时，检查 \`$CODEX_HOME_DIR/automations/development-lesson-review/memory.md\` 主游标和 \`$MAINTENANCE_DIR/lesson-review-cursor.json\` canonical cursor。写 canonical cursor 时先写临时 JSON 文件，校验能被解析后再替换目标文件，避免半写入导致游标损坏。
+判断游标是否可写时，重点检查主游标 \`$MAINTENANCE_DIR/lesson-review-cursor.json\`，并检查 \`$CODEX_HOME_DIR/automations/development-lesson-review/memory.md\` 是否可写以便记录中文运行摘要。写主游标时先写临时 JSON 文件，校验能被解析后再替换目标文件，避免半写入导致游标损坏。
 
 长期项目需要定期整理自动复盘材料，避免日志、候选和规则无限增长。每月进行一次压缩整理：汇总上月日志、清理已拒绝/已过期候选、合并重复经验、把稳定流程整理进 \`skills/\`、把失败案例整理进 \`evals/\`、归档旧日志。旧日志和旧候选按月份放入 \`$MAINTENANCE_DIR/archive/\`，当前文件只保留最近 1-2 个月便于审查。月度整理时必须检查规则冲突：全局 \`AGENTS.md\` 与项目 \`AGENTS.md\` 是否矛盾，\`skills/\` 与 \`hooks/\` 是否重复或冲突，项目规则是否应覆盖全局规则，旧规则是否已过期。可以提出“建议删除”“建议降级为候选”“建议从全局迁移到项目本地”，但不要自动执行删除或迁移，除非用户明确确认；这些建议必须写入 \`$MAINTENANCE_DIR/lesson-review-pending-changes.md\`，包含建议动作、原文件、原内容摘要、建议目标、理由、风险、确认状态、处理结论和处理时间。
 
-只要修改了任何持久指导文件，就向 \`$MAINTENANCE_DIR/lesson-review-log.md\` 追加一条简洁中文记录，包含：来源、变更文件、经验、分层理由、校验。如果只写入候选文件或待确认变更，也要在本次回复中说明候选条目、待确认动作和暂不直接执行原因。如果没有持久指导文件变更，不要追加日志条目。每次复盘结束后，都要把新的主游标写入 \`$CODEX_HOME_DIR/automations/development-lesson-review/memory.md\`，包含本轮已复核到的时间、文件元数据摘要、仓库 head/status、是否发现新长期经验。只要 memory 主游标写入成功，就视为自动化游标已推进，不应重复扫描旧输入。同步 canonical cursor \`$MAINTENANCE_DIR/lesson-review-cursor.json\`，并报告 canonical cursor 写入结果。只有 \`$CODEX_HOME_DIR/automations/development-lesson-review/memory.md\` 主游标写入失败时，才报告自动化 cursor 无法推进；此时不要写入新的长期经验，避免重复沉淀。
+只要修改了任何持久指导文件，就向 \`$MAINTENANCE_DIR/lesson-review-log.md\` 追加一条简洁中文记录，包含：来源、变更文件、经验、分层理由、校验。如果只写入候选文件或待确认变更，也要在本次回复中说明候选条目、待确认动作和暂不直接执行原因。如果没有持久指导文件变更，不要追加日志条目。每次复盘结束后，都要把新的主游标写入 \`$MAINTENANCE_DIR/lesson-review-cursor.json\`，包含本轮已复核到的时间、文件元数据摘要、仓库 head/status、是否发现新长期经验。主游标写入成功后，再更新 \`$CODEX_HOME_DIR/automations/development-lesson-review/memory.md\` 作为中文运行摘要。只有主游标写入失败时，才报告自动化 cursor 无法推进；此时不要写入新的长期经验，避免重复沉淀。
 
 保持变更简洁，避免一次性、重复或猜测性记录；不要持久化私有推理；保留用户已有修改。每次运行结束时，用中文简短回复本次检查了什么、直接修改了哪些持久文件、写入了哪些候选或待确认变更、哪些内容因重复/一次性/证据不足/范围过宽/上下文成本过高/疑似敏感被跳过，发现了哪些规则冲突，提出了哪些删除/降级/迁移建议，cursor 是否已更新，以及是否发现权限或写入失败。
 EOF
@@ -252,6 +254,7 @@ TARGET_FILES=(
   "$MAINTENANCE_DIR/archive/README.md"
   "$MAINTENANCE_DIR/start_dashboard.py"
   "$MAINTENANCE_DIR/check_permissions.sh"
+  "$MAINTENANCE_DIR/install-self-check.md"
   "$CODEX_HOME_DIR/vault/global-state.md"
   "$CODEX_HOME_DIR/hooks/validation.md"
   "$CODEX_HOME_DIR/AGENTS.md"
@@ -314,7 +317,7 @@ if [[ "$UPGRADE" == "true" && -f "$MAINTENANCE_DIR/lesson-review-log.md" ]]; the
     printf '\n### %s - 升级自动经验总结安装包\n\n' "$TODAY"
     printf -- '- 来源：运行安装包升级模式。\n'
     printf -- '- 变更文件：`%s/automations/development-lesson-review/automation.toml` 以及缺失的模板规则文件。\n' "$CODEX_HOME_DIR"
-    printf -- '- 经验：升级模式应保留既有复盘日志、主 memory 游标、canonical cursor 和候选经验，只更新自动化 prompt 和缺失规则。\n'
+    printf -- '- 经验：升级模式应保留既有复盘日志、稳定 cursor、运行记忆和候选经验，只更新自动化 prompt 和缺失规则。\n'
     printf -- '- 分层理由：升级记录放入复盘日志，避免静默改变自动化行为。\n'
     printf -- '- 校验：安装脚本未重置既有 `memory.md`、`lesson-review-cursor.json` 或 `lesson-review-candidates.md`。\n'
   } >> "$MAINTENANCE_DIR/lesson-review-log.md"
@@ -381,12 +384,34 @@ fi
 
 "$PACKAGE_DIR/scripts/check_permissions.sh" --codex-home "$CODEX_HOME_DIR" --maintenance-dir "$MAINTENANCE_DIR"
 
+cat > "$MAINTENANCE_DIR/install-self-check.md" <<EOF
+# 自动经验总结安装后自检报告
+
+- 生成时间：$TODAY
+- 安装版本：$PACKAGE_VERSION
+- Codex Home：$CODEX_HOME_DIR
+- 维护目录：$MAINTENANCE_DIR
+- 自动化配置：$CODEX_HOME_DIR/automations/development-lesson-review/automation.toml
+- 自动化状态：$STATUS
+- 调度时间：UTC ${UTC_HOUR}:00
+- 观察仓库：${REPOS[*]}
+- 主游标：$MAINTENANCE_DIR/lesson-review-cursor.json
+- 运行记忆：$CODEX_HOME_DIR/automations/development-lesson-review/memory.md
+- 维护面板：$MAINTENANCE_DIR/start_dashboard.py
+- 权限检查：已通过
+
+## 升级保护
+
+使用 \`--upgrade\` 时，安装脚本会更新自动化配置、维护面板脚本、权限检查脚本和缺失模板，但不会重置既有 \`memory.md\`、\`lesson-review-cursor.json\`、复盘日志、候选经验或待确认变更。关键文件覆盖前会先生成 \`.bak.时间戳\` 备份。
+EOF
+
 echo "安装完成。"
 echo "Codex Home: $CODEX_HOME_DIR"
 echo "集中维护目录: $MAINTENANCE_DIR"
 echo "自动化: $CODEX_HOME_DIR/automations/development-lesson-review/automation.toml"
 echo "维护面板: python3 \"$MAINTENANCE_DIR/start_dashboard.py\""
 echo "权限检查: \"$MAINTENANCE_DIR/check_permissions.sh\""
+echo "安装后自检报告: $MAINTENANCE_DIR/install-self-check.md"
 echo "状态: $STATUS"
 echo "版本: $PACKAGE_VERSION"
 echo "升级模式: $UPGRADE"

@@ -8,8 +8,8 @@
 - 全局指导文件：`{{CODEX_HOME}}/AGENTS.md`
 - 当前启用的全局自动化：`development-lesson-review`
 - 复盘变更日志：`{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-log.md`
-- 复盘主游标：`{{CODEX_HOME}}/automations/development-lesson-review/memory.md`
-- 复盘 canonical cursor：`{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-cursor.json`
+- 复盘主游标：`{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-cursor.json`
+- 自动化记忆：`{{CODEX_HOME}}/automations/development-lesson-review/memory.md`
 - 持久记忆分层：
   - `skills/` 用于重复执行的工作流
   - `vault/` 用于持久状态和决策
@@ -25,7 +25,7 @@
 - 后台复盘用于观察 Codex 协作工作，包括近期对话/会话记录和工作区变化，而不只是仓库 diff。
 - 每次后台复盘只要修改了持久指导文件，就应向 `{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-log.md` 追加一条简洁中文记录。
 - 后台复盘不应重复总结已经存在于持久指导或复盘日志中的相同/近似经验。
-- 后台复盘应使用 `{{CODEX_HOME}}/automations/development-lesson-review/memory.md` 中的主游标区分已经复盘过的输入和新的对话、文件、仓库变化；同时同步 `{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-cursor.json` 作为机器可读 canonical cursor。
+- 后台复盘应使用 `{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-cursor.json` 作为主增量游标，区分已经复盘过的输入和新的对话、文件、仓库变化；`memory.md` 只作为人工可读运行记忆和最近结论。
 - 后台复盘应默认保守写入：只有高置信度经验直接进入持久层；中置信度线索写入 `{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-candidates.md` 等待审查；低置信度线索只在本次总结中说明跳过原因。
 - 后台复盘写入高频上下文文件前必须评估上下文成本；`AGENTS.md` 和 `SKILL.md` 只保留短规则和核心流程，历史、案例、审计和候选内容放入 `vault/` 或 references。
 - 后台复盘写入 `skills/` 前必须先查找已有相关 skill；能迭代已有 skill 时优先更新已有 skill，只有没有合适承载点或新流程明显独立时才创建新 skill。
@@ -34,7 +34,7 @@
 - 自动复盘可以提出删除、降级或迁移建议，但不得在没有用户明确确认时自动删除或迁移既有长期规则。
 - 删除、降级或迁移建议应写入 `{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-pending-changes.md` 等待人工确认。
 - 月度维护应检查全局/项目规则、`skills/` 和 `hooks/` 之间是否存在重复、矛盾、覆盖关系错误或过期规则。
-- 如果 `memory.md` 主游标写入失败，后台复盘不应写入新的长期经验，避免重复扫描旧输入后重复沉淀。
+- 如果主游标 `lesson-review-cursor.json` 写入失败，后台复盘不应写入新的长期经验，避免重复扫描旧输入后重复沉淀。
 
 ## Open Items
 
