@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "initialized_at": "{{NOW}}",
+  "last_review_at": "{{NOW}}",
+  "policy": {
+    "main_memory": "{{CODEX_HOME}}/automations/development-lesson-review/memory.md",
+    "canonical_cursor": "{{CODEX_HOME}}/automations/development-lesson-review/maintenance/lesson-review-cursor.json",
+    "maintenance_dir": "{{CODEX_HOME}}/automations/development-lesson-review/maintenance",
+    "notes": "本文件是主增量游标；memory.md 是人工可读运行记忆和最近结论。"
+  },
+  "files": {},
+  "repos": {}
+}

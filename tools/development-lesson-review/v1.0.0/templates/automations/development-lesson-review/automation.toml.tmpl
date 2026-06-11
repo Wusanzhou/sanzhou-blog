@@ -1,0 +1,13 @@
+version = 1
+id = "development-lesson-review"
+kind = "cron"
+name = "Development Lesson Review"
+prompt = "{{PROMPT}}"
+status = "{{STATUS}}"
+rrule = "FREQ=DAILY;BYHOUR={{UTC_HOUR}};BYMINUTE=0;BYSECOND=0"
+model = "{{MODEL}}"
+reasoning_effort = "medium"
+execution_environment = "local"
+cwds = {{CWDS_JSON}}
+created_at = {{NOW_MS}}
+updated_at = {{NOW_MS}}
